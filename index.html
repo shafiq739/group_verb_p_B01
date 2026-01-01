@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vocabulary Matching Practice</title>
+
+    <style>
+      :root {
+        --primary: #1e293b;
+        --accent: #2563eb;
+        --bg: #f1f5f9;
+        --card: #ffffff;
+        --success: #16a34a;
+        --error: #dc2626;
+        --border: #cbd5e1;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--bg);
+        margin: 0;
+        padding: 12px;
+        color: #0f172a;
+      }
+
+      .container {
+        max-width: 480px;
+        margin: auto;
+        background: var(--card);
+        padding: 18px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+      }
+
+      h2 {
+        text-align: center;
+        margin: 0 0 12px;
+        color: var(--primary);
+      }
+
+      #words {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .word {
+        padding: 14px;
+        background: #eef2ff;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 17px;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .word.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      .meaning {
+        padding: 14px;
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        margin-bottom: 12px;
+        font-size: 17px;
+        background: #fafafa;
+        transition: 0.2s;
+      }
+
+      .correct {
+        background: #ecfdf5;
+        border-color: var(--success);
+        color: #065f46;
+      }
+
+      .wrong {
+        background: #fef2f2;
+        border-color: var(--error);
+        color: #7f1d1d;
+      }
+
+      button {
+        width: 100%;
+        padding: 15px;
+        font-size: 18px;
+        font-weight: 600;
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 14px;
+        margin-top: 10px;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 15px 0;
+      }
+
+      #score {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--primary);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2 id="title">Vocabulary Practice</h2>
+
+      <div id="words"></div>
+      <hr />
+      <div id="meanings"></div>
+
+      <button onclick="check()">Check & Next</button>
+    </div>
+
+    <script>
+      const data = [
+        { en: "Mobilized", bn: "সংগঠিত করা, সংগ্রহ করা, কাজে লাগানো" },
+        { en: "Spent", bn: "খরচ করা" },
+        { en: "Gave", bn: "দেওয়া" },
+        { en: "Allocated", bn: "বরাদ্দ করা" },
+        { en: "Collected", bn: "সংগ্রহ করা" },
+
+        { en: "Impediment", bn: "বাধা, প্রতিবন্ধকতা" },
+        { en: "Helpful", bn: "সহায়ক" },
+        { en: "Hindrance", bn: "বাধা" },
+        { en: "Obstacle", bn: "প্রতিবন্ধকতা" },
+        { en: "Useful", bn: "উপকারী" },
+
+        { en: "Prohibit", bn: "নিষেধ করা" },
+        { en: "Protest", bn: "প্রতিবাদ করা" },
+        { en: "Ban", bn: "নিষেধাজ্ঞা দেওয়া" },
+        { en: "Detest", bn: "ঘৃণা করা" },
+        { en: "Support", bn: "সমর্থন করা" },
+
+        { en: "Callous", bn: "নিষ্ঠুর, অনুভূতিহীন" },
+        { en: "Compassionate", bn: "সহানুভূতিশীল" },
+        { en: "Cruel", bn: "নিষ্ঠুর" },
+        { en: "Unsympathetic", bn: "সহানুভূতিহীন" },
+        { en: "Fickle", bn: "চঞ্চল, অস্থিরমনা" },
+
+        { en: "Destitute", bn: "নিঃস্ব, অতিদরিদ্র" },
+        { en: "Affluent", bn: "ধনী" },
+        { en: "Necessary", bn: "প্রয়োজনীয়" },
+        { en: "Bold", bn: "সাহসী" },
+        { en: "Talkative", bn: "কথাবার্তাপ্রবণ" },
+
+        { en: "Electrifying", bn: "অত্যন্ত উত্তেজনাপূর্ণ" },
+        { en: "Very exciting", bn: "খুবই রোমাঞ্চকর" },
+        { en: "Electric fire", bn: "বৈদ্যুতিক আগুন" },
+        { en: "Electric change", bn: "বৈদ্যুতিক পরিবর্তন" },
+        { en: "Illuminating", bn: "আলোকিত, জ্ঞানবর্ধক" },
+
+        { en: "Egoist", bn: "স্বার্থপর ব্যক্তি" },
+        { en: "Eccentric", bn: "অদ্ভুত, খেয়ালী" },
+        { en: "Boaster", bn: "দাম্ভিক ব্যক্তি" },
+        { en: "Proud", bn: "অহংকারী, গর্বিত" },
+
+        { en: "Apartheid", bn: "বর্ণবৈষম্য" },
+        { en: "Apart", bn: "আলাদা" },
+        { en: "Distance", bn: "দূরত্ব" },
+        { en: "Discrimination", bn: "বৈষম্য" },
+        { en: "Dialogue", bn: "সংলাপ" },
+
+        { en: "Procrastinate", bn: "কাজ ফেলে রাখা" },
+        { en: "Delay", bn: "বিলম্ব করা" },
+        { en: "Expedite", bn: "দ্রুত সম্পন্ন করা" },
+        { en: "Carry", bn: "বহন করা" },
+        { en: "Move", bn: "সরানো, এগোনো" },
+      ];
+
+      let index = 0;
+      let score = 0;
+      let selected = null;
+
+      function load() {
+        selected = null;
+        document.getElementById("words").innerHTML = "";
+        document.getElementById("meanings").innerHTML = "";
+
+        const page = Math.floor(index / 4) + 1;
+        const totalPages = Math.ceil(data.length / 4);
+        document.getElementById(
+          "title"
+        ).innerText = `Page ${page} / ${totalPages}`;
+
+        const chunk = data.slice(index, index + 4);
+        const shuffled = [...chunk].sort(() => Math.random() - 0.5);
+
+        chunk.forEach((w) => {
+          const d = document.createElement("div");
+          d.className = "word";
+          d.innerText = w.en;
+          d.onclick = () => {
+            document
+              .querySelectorAll(".word")
+              .forEach((x) => x.classList.remove("active"));
+            d.classList.add("active");
+            selected = w.en;
+          };
+          document.getElementById("words").appendChild(d);
+        });
+
+        shuffled.forEach((w) => {
+          const m = document.createElement("div");
+          m.className = "meaning";
+          m.dataset.answer = w.en;
+          m.innerText = w.bn;
+          m.onclick = () => {
+            if (selected) {
+              m.innerHTML = w.bn + " ➜ <b>" + selected + "</b>";
+              m.dataset.user = selected;
+            }
+          };
+          document.getElementById("meanings").appendChild(m);
+        });
+      }
+
+      function check() {
+        let correct = true;
+        document.querySelectorAll(".meaning").forEach((m) => {
+          if (m.dataset.user === m.dataset.answer) {
+            m.classList.add("correct");
+            score++;
+          } else {
+            m.classList.add("wrong");
+            correct = false;
+          }
+        });
+
+        if (correct) {
+          index += 4;
+          setTimeout(() => {
+            if (index >= data.length) {
+              document.querySelector(
+                ".container"
+              ).innerHTML = `<h2>Finished 🎉</h2>
+           <p id="score">Your Score: ${score} / ${data.length}</p>`;
+            } else {
+              load();
+            }
+          }, 700);
+        }
+      }
+
+      load();
+    </script>
+  </body>
+</html>
