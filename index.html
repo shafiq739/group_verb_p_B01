@@ -134,70 +134,43 @@
 
     <script>
       const data = [
-        // 17
-        { en: "Namesake", bn: "একই নামধারী ব্যক্তি" },
-        { en: "Nickname", bn: "ডাকনাম" },
-        { en: "Anonymous", bn: "নামহীন; অজ্ঞাত" },
-        { en: "Pseudonym", bn: "ছদ্মনাম" },
+        { en: "Bring about", bn: "ঘটানো" },
+        { en: "Bring forth", bn: "উৎপাদন করা" },
+        { en: "Bring off", bn: "উদ্ধার করা" },
+        { en: "Bring through", bn: "আরোগ্য লাভ করা" },
+        { en: "Bring up", bn: "প্রতিপালন করা" },
+        { en: "Bring in", bn: "দেওয়া" },
+        { en: "Bring out", bn: "ছেপে প্রকাশ করা" },
+        { en: "Bring out", bn: "দৃষ্টিগোচর করা" },
+        { en: "Bring down", bn: "নিম্নমুখী করা" },
 
-        // 18
-        { en: "Holocaust", bn: "গণহত্যা; ব্যাপক ধ্বংসযজ্ঞ" },
-        { en: "Oregon", bn: "আমেরিকার একটি রাজ্য" },
-        { en: "Cannibal", bn: "নরখাদক" },
-        { en: "Homicide", bn: "হত্যাকাণ্ড" },
+        { en: "Break away", bn: "ভেঙে বের হয়ে আসা" },
+        { en: "Break down", bn: "ভেঙে পড়া" },
+        { en: "Break down", bn: "নষ্ট হওয়া / বিকল হওয়া" },
+        { en: "Break forth", bn: "হঠাৎ প্রকাশ করা" },
+        { en: "Break in / on", bn: "বাধা দেওয়া" },
+        { en: "Break into", bn: "জোর করে প্রবেশ করা" },
+        { en: "Break off", bn: "হঠাৎ থামা" },
+        { en: "Break through", bn: "জোর করে সরানো" },
+        { en: "Break out", bn: "হঠাৎ শুরু হওয়া" },
+        { en: "Break up", bn: "বন্ধ হওয়া" },
+        { en: "Break with", bn: "সম্পর্ক ছিন্ন করা" },
 
-        // 19
-        { en: "Alluring", bn: "আকর্ষণীয়; মোহনীয়" },
-        { en: "Elusiveness", bn: "ধরা না পড়ার স্বভাব" },
-        { en: "Tenacity", bn: "দৃঢ়তা; অবিচলতা" },
-        { en: "Knotty", bn: "জটিল" },
+        { en: "Bear away/off", bn: "জয় করে নেওয়া" },
+        { en: "Bear down", bn: "ঠেলে ফেলে জয় করা" },
+        { en: "Bear on", bn: "সম্পর্কিত" },
+        { en: "Bear out", bn: "সমর্থন করা" },
+        { en: "Bear up", bn: "মনের জোর রাখা" },
+        { en: "Bear with", bn: "সহ্য করা" },
 
-        // 20
-        { en: "Quell", bn: "দমন করা; থামিয়ে দেওয়া" },
-        { en: "Foment", bn: "উসকে দেওয়া" },
-        { en: "Divert", bn: "অন্যদিকে ঘুরিয়ে দেওয়া" },
-        { en: "Confirm", bn: "নিশ্চিত করা" },
-        { en: "Convoke", bn: "আহ্বান করা" },
+        { en: "Blow away", bn: "উড়িয়ে নিয়ে যাওয়া" },
+        { en: "Blow off", bn: "নির্গত করা" },
+        { en: "Blow over", bn: "থেমে যাওয়া" },
+        { en: "Blow out", bn: "নিভানো" },
+        { en: "Blow up", bn: "বিস্ফোরণ করা" },
 
-        // 21
-        { en: "Ample", bn: "পর্যাপ্ত; প্রচুর" },
-        { en: "Extensive", bn: "ব্যাপক" },
-        { en: "Limited", bn: "সীমিত" },
-        { en: "Sufficient", bn: "যথেষ্ট" },
-        { en: "Abundant", bn: "প্রাচুর্যপূর্ণ" },
-
-        // 22
-        { en: "Hypothesis", bn: "অনুমান; কল্পিত ধারণা" },
-        { en: "Proof", bn: "প্রমাণ" },
-        { en: "Promotion", bn: "পদোন্নতি" },
-        { en: "Supposition", bn: "অনুমান" },
-
-        // 23
-        { en: "Perpetual", bn: "চিরস্থায়ী; অবিরাম" },
-        { en: "Immortal", bn: "অমর" },
-        { en: "Fatal", bn: "মারাত্মক" },
-        { en: "Consistency", bn: "ধারাবাহিকতা" },
-        { en: "Adhesion", bn: "সংযুক্তি" },
-
-        // 24
-        { en: "Extempore", bn: "পূর্বপ্রস্তুতি ছাড়া" },
-        { en: "Unplanned", bn: "অপরিকল্পিত" },
-        { en: "Arbitrate", bn: "মীমাংসা করা" },
-        { en: "Rehearsal", bn: "মহড়া" },
-        { en: "Appease", bn: "শান্ত করা" },
-
-        // 25
-        { en: "Precarious", bn: "ঝুঁকিপূর্ণ; অনিশ্চিত" },
-        { en: "Pre-condition", bn: "পূর্বশর্ত" },
-        { en: "Prune", bn: "ছাঁটাই করা" },
-        { en: "Hazardous", bn: "বিপজ্জনক" },
-        { en: "Incessant", bn: "নিরবচ্ছিন্ন" },
-
-        // 26
-        { en: "Panoramic", bn: "বিস্তৃত দৃশ্যযুক্ত" },
-        { en: "Scenic", bn: "প্রাকৃতিক দৃশ্য সুন্দর" },
-        { en: "Narrow", bn: "সংকীর্ণ" },
-        { en: "Restricted", bn: "নিয়ন্ত্রিত" },
+        { en: "Burst into", bn: "কান্নায় ভেঙে পড়া" },
+        { en: "Burst out", bn: "হাসিতে ফেটে পড়া" },
       ];
 
       let index = 0;
