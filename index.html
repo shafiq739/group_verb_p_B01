@@ -1,253 +1,271 @@
 <!DOCTYPE html>
-<html ="en">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <title>English–Bangla Word Matching Quiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vocabulary Matching Practice</title>
 
     <style>
-      :root {
-        --primary: #1e293b;
-        --accent: #2563eb;
-        --bg: #f1f5f9;
-        --card: #ffffff;
-        --success: #16a34a;
-        --error: #dc2626;
-        --border: #cbd5e1;
-      }
-
       * {
         box-sizing: border-box;
       }
 
       body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        background: var(--bg);
         margin: 0;
-        padding: 12px;
-        color: #0f172a;
+        min-height: 100vh;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: radial-gradient(
+            circle at top left,
+            #38bdf8,
+            transparent 40%
+          ),
+          radial-gradient(circle at bottom right, #a78bfa, transparent 45%),
+          linear-gradient(135deg, #0f172a, #020617);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
       }
 
-      .container {
-        max-width: 480px;
-        margin: auto;
-        background: var(--card);
-        padding: 18px;
-        border-radius: 16px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-      }
-
-      h2 {
+      /* Quiz Card */
+      .quiz-card {
+        width: 100%;
+        max-width: 420px;
+        padding: 28px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
         text-align: center;
-        margin: 0 0 12px;
-        color: var(--primary);
+        animation: fadeIn 0.5s ease;
       }
 
-      /* 🔹 English words grid (2x2) */
-      #words {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .progress {
+        font-size: 13px;
+        color: #64748b;
       }
 
       .word {
-        padding: 14px;
-        background: #eef2ff;
-        border-radius: 12px;
-        text-align: center;
-        font-size: 17px;
-        font-weight: 600;
-        border: 1px solid var(--border);
+        font-size: 28px;
+        font-weight: 800;
+        margin: 20px 0 10px;
+        color: #020617;
+      }
+
+      /* Options */
+      .options {
+        margin-top: 22px;
+      }
+
+      .option {
+        background: #f8fafc;
+        padding: 16px 18px;
+        margin: 14px 0;
+        border-radius: 16px;
         cursor: pointer;
-        transition: 0.2s;
+        font-size: 16px;
+        font-weight: 500;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+        transition: all 0.25s ease;
+        border: 2px solid transparent;
       }
 
-      .word.active {
-        background: var(--accent);
-        color: #fff;
-        border-color: var(--accent);
-      }
-
-      .meaning {
-        padding: 14px;
-        border: 2px dashed var(--border);
-        border-radius: 12px;
-        margin-bottom: 12px;
-        font-size: 17px;
-        background: #fafafa;
-        transition: 0.2s;
+      .option:hover {
+        transform: translateY(-2px);
+        background: #eef2ff;
       }
 
       .correct {
-        background: #ecfdf5;
-        border-color: var(--success);
-        color: #065f46;
+        background: #22c55e !important;
+        color: #ffffff;
+        border-color: #16a34a;
       }
 
       .wrong {
-        background: #fef2f2;
-        border-color: var(--error);
-        color: #7f1d1d;
+        background: #ef4444 !important;
+        color: #ffffff;
+        border-color: #dc2626;
       }
 
-      button {
+      /* Next Button */
+      .next-btn {
+        margin-top: 20px;
         width: 100%;
-        padding: 15px;
-        font-size: 18px;
-        font-weight: 600;
-        background: var(--primary);
+        padding: 14px;
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
         color: #fff;
-        border: none;
-        border-radius: 14px;
-        margin-top: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: none;
+        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.45);
+        transition: transform 0.2s ease;
       }
 
-      button:active {
-        transform: scale(0.98);
+      .next-btn:hover {
+        transform: translateY(-2px);
       }
 
-      hr {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 15px 0;
+      .footer {
+        margin-top: 14px;
+        font-size: 13px;
+        color: #64748b;
       }
 
-      #score {
-        text-align: center;
-        font-size: 20px;
-        font-weight: 700;
-        color: var(--primary);
+      .result {
+        font-size: 22px;
+        font-weight: 800;
+        color: #020617;
       }
     </style>
   </head>
 
   <body>
-    <div class="container">
-      <h2 id="title">Vocabulary Practice</h2>
+    <div class="quiz-card" id="quiz">
+      <div class="progress" id="progress"></div>
+      <div class="word" id="question"></div>
 
-      <div id="words"></div>
-      <hr />
-      <div id="meanings"></div>
+      <div class="options" id="options"></div>
 
-      <button onclick="check()">Check & Next</button>
+      <button class="next-btn" id="nextBtn">Next Question →</button>
+
+      <div class="footer">Choose the correct Bangla meaning</div>
     </div>
 
     <script>
-      const data = [
-        { en: "Bring about", bn: "ঘটানো" },
-        { en: "Bring forth", bn: "উৎপাদন করা" },
-        { en: "Bring off", bn: "উদ্ধার করা" },
-        { en: "Bring through", bn: "আরোগ্য লাভ করা" },
-        { en: "Bring up", bn: "প্রতিপালন করা" },
-        { en: "Bring in", bn: "দেওয়া" },
-        { en: "Bring out", bn: "ছেপে প্রকাশ করা" },
-        { en: "Bring out", bn: "দৃষ্টিগোচর করা" },
-        { en: "Bring down", bn: "নিম্নমুখী করা" },
+      const words = [
+        { q: "Bring about", a: "ঘটানো" },
+        { q: "Bring forth", a: "উৎপাদন করা" },
+        { q: "Bring off", a: "উদ্ধার করা" },
+        { q: "Bring through", a: "আরোগ্য লাভ করা" },
+        { q: "Bring up", a: "প্রতিপালন করা" },
+        { q: "Bring in", a: "দেওয়া" },
+        { q: "Bring out", a: "ছেপে প্রকাশ করা" },
+        { q: "Bring out", a: "দৃষ্টিগোচর করা" },
+        { q: "Bring down", a: "নিম্নমুখী করা" },
 
-        { en: "Break away", bn: "ভেঙে বের হয়ে আসা" },
-        { en: "Break down", bn: "ভেঙে পড়া" },
-        { en: "Break down", bn: "নষ্ট হওয়া / বিকল হওয়া" },
-        { en: "Break forth", bn: "হঠাৎ প্রকাশ করা" },
-        { en: "Break in / on", bn: "বাধা দেওয়া" },
-        { en: "Break into", bn: "জোর করে প্রবেশ করা" },
-        { en: "Break off", bn: "হঠাৎ থামা" },
-        { en: "Break through", bn: "জোর করে সরানো" },
-        { en: "Break out", bn: "হঠাৎ শুরু হওয়া" },
-        { en: "Break up", bn: "বন্ধ হওয়া" },
-        { en: "Break with", bn: "সম্পর্ক ছিন্ন করা" },
+        { q: "Break away", a: "ভেঙে বের হয়ে আসা" },
+        { q: "Break down", a: "ভেঙে পড়া" },
+        { q: "Break down", a: "নষ্ট হওয়া / বিকল হওয়া" },
+        { q: "Break forth", a: "হঠাৎ প্রকাশ করা" },
+        { q: "Break in / on", a: "বাধা দেওয়া" },
+        { q: "Break into", a: "জোর করে প্রবেশ করা" },
+        { q: "Break off", a: "হঠাৎ থামা" },
+        { q: "Break through", a: "জোর করে সরানো" },
+        { q: "Break out", a: "হঠাৎ শুরু হওয়া / প্রাদুর্ভাব ঘটা" },
+        { q: "Break up", a: "বন্ধ হওয়া" },
+        { q: "Break with", a: "ঝগড়া করা / সম্পর্ক ছিন্ন করা" },
 
-        { en: "Bear away/off", bn: "জয় করে নেওয়া" },
-        { en: "Bear down", bn: "ঠেলে ফেলে জয় করা" },
-        { en: "Bear on", bn: "সম্পর্কিত" },
-        { en: "Bear out", bn: "সমর্থন করা" },
-        { en: "Bear up", bn: "মনের জোর রাখা" },
-        { en: "Bear with", bn: "সহ্য করা" },
+        { q: "Bear away / off", a: "জয় করে নেওয়া" },
+        { q: "Bear down", a: "ঠেলে ফেলে জয় করা" },
+        { q: "Bear on", a: "সম্পর্কিত" },
+        { q: "Bear out", a: "সমর্থন করা" },
+        { q: "Bear up", a: "মনের জোর বজায় রাখা" },
+        { q: "Bear with", a: "সহ্য করা" },
 
-        { en: "Blow away", bn: "উড়িয়ে নিয়ে যাওয়া" },
-        { en: "Blow off", bn: "নির্গত করা" },
-        { en: "Blow over", bn: "থেমে যাওয়া" },
-        { en: "Blow out", bn: "নিভানো" },
-        { en: "Blow up", bn: "বিস্ফোরণ করা" },
+        { q: "Blow away", a: "উড়িয়ে নিয়ে যাওয়া" },
+        { q: "Blow off", a: "নির্গত করা" },
+        { q: "Blow over", a: "থেমে যাওয়া" },
+        { q: "Blow out", a: "নিভানো" },
+        { q: "Blow up", a: "বিস্ফোরণ দ্বারা উড়িয়ে দেওয়া" },
 
-        { en: "Burst into", bn: "কান্নায় ভেঙে পড়া" },
-        { en: "Burst out", bn: "হাসিতে ফেটে পড়া" },
+        { q: "Burst into", a: "হঠাৎ কান্নায় ভেঙ্গে পড়া" },
+        { q: "Burst out", a: "হাসিতে ফেটে পড়া" },
       ];
+
+      // shuffle questions
+      words.sort(() => Math.random() - 0.5);
 
       let index = 0;
       let score = 0;
-      let selected = null;
+      let answered = false;
 
-      function load() {
-        selected = null;
-        document.getElementById("words").innerHTML = "";
-        document.getElementById("meanings").innerHTML = "";
+      const progress = document.getElementById("progress");
+      const question = document.getElementById("question");
+      const optionsBox = document.getElementById("options");
+      const nextBtn = document.getElementById("nextBtn");
 
-        const page = Math.floor(index / 4) + 1;
-        const totalPages = Math.ceil(data.length / 4);
-        document.getElementById(
-          "title"
-        ).innerText = `Page ${page} / ${totalPages}`;
+      function loadQuiz() {
+        answered = false;
+        nextBtn.style.display = "none";
+        optionsBox.innerHTML = "";
 
-        const chunk = data.slice(index, index + 4);
-        const shuffled = [...chunk].sort(() => Math.random() - 0.5);
+        if (index >= words.length) {
+          document.getElementById("quiz").innerHTML = `
+      <div class="result">🎉 Quiz Finished</div>
+      <p class="result">Score: ${score} / ${words.length}</p>
+      <p class="footer">Refresh the page to play again</p>
+    `;
+          return;
+        }
 
-        chunk.forEach((w) => {
-          const d = document.createElement("div");
-          d.className = "word";
-          d.innerText = w.en;
-          d.onclick = () => {
-            document
-              .querySelectorAll(".word")
-              .forEach((x) => x.classList.remove("active"));
-            d.classList.add("active");
-            selected = w.en;
-          };
-          document.getElementById("words").appendChild(d);
-        });
+        progress.innerText = `Question ${index + 1} of ${words.length}`;
+        question.innerText = words[index].q;
 
-        shuffled.forEach((w) => {
-          const m = document.createElement("div");
-          m.className = "meaning";
-          m.dataset.answer = w.en;
-          m.innerText = w.bn;
-          m.onclick = () => {
-            if (selected) {
-              m.innerHTML = w.bn + " ➜ <b>" + selected + "</b>";
-              m.dataset.user = selected;
-            }
-          };
-          document.getElementById("meanings").appendChild(m);
+        // create 4 unique options
+        let allAnswers = words.map((w) => w.a);
+        let optionSet = new Set();
+        optionSet.add(words[index].a);
+
+        while (optionSet.size < 4) {
+          const rand =
+            allAnswers[Math.floor(Math.random() * allAnswers.length)];
+          optionSet.add(rand);
+        }
+
+        const options = Array.from(optionSet).sort(() => Math.random() - 0.5);
+
+        options.forEach((opt) => {
+          const div = document.createElement("div");
+          div.className = "option";
+          div.innerText = opt;
+          div.onclick = () => selectAnswer(div, opt);
+          optionsBox.appendChild(div);
         });
       }
 
-      function check() {
-        let correct = true;
-        document.querySelectorAll(".meaning").forEach((m) => {
-          if (m.dataset.user === m.dataset.answer) {
-            m.classList.add("correct");
-            score++;
-          } else {
-            m.classList.add("wrong");
-            correct = false;
+      function selectAnswer(el, answer) {
+        if (answered) return;
+        answered = true;
+
+        const correct = words[index].a;
+        const all = document.querySelectorAll(".option");
+
+        all.forEach((o) => {
+          o.onclick = null;
+          if (o.innerText === correct) {
+            o.classList.add("correct");
           }
         });
 
-        if (correct) {
-          index += 4;
-          setTimeout(() => {
-            if (index >= data.length) {
-              document.querySelector(
-                ".container"
-              ).innerHTML = `<h2>Finished 🎉</h2>
-           <p id="score">Your Score: ${score} / ${data.length}</p>`;
-            } else {
-              load();
-            }
-          }, 700);
+        if (answer !== correct) {
+          el.classList.add("wrong");
+        } else {
+          score++;
         }
+
+        nextBtn.style.display = "block";
       }
 
-      load();
+      nextBtn.onclick = () => {
+        index++;
+        loadQuiz();
+      };
+
+      loadQuiz();
     </script>
   </body>
 </html>
